@@ -12,3 +12,25 @@ class Book {
         this.copies += quantity;
     }
 }
+
+// Task 2 Creating a borrower classes
+class Borrower {
+    constructor(name, borrowerId) {
+        this.name = name; this.borrowerId = borrowerId; this.borrowedBooks = [];
+    }
+
+    borrowBook(book) {
+        this.borrowedBooks.push(book.title);
+    }
+
+    returnBook(book) {
+        const index = this.borrowedBooks.indexOf(book.title);
+        if (index !== -1) {
+            this.borrowedBooks.splice(index, 1);
+        }
+    }
+
+    getBorrowedBooks() {
+        return this.borrowedBooks.join(', ');
+    }
+}
