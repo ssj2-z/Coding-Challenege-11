@@ -34,3 +34,51 @@ class Borrower {
         return this.borrowedBooks.join(', ');
     }
 }
+
+// Task 3 Class Library
+class Library {
+    constructor() {
+        this.books = []; this.borrowers = [];
+    }
+
+    addBook(book) {
+        this.books.push(book);
+    }
+
+    addBorrower(borrower) {
+        this.borrowers.push(borrower);
+    }
+
+    findBookByTitle(title) {
+        return this.books.find(book => book,title === title);
+    }
+
+    findBorrowerById(borrowerId) {
+        return this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
+    }
+
+    borrowBook(borrowerId, bookTitle) {
+        const borrower = this.findBorrowerById(borrowerId);
+        const book = this.findBookByTitle(bookTitle);
+
+        if (borrower && book && book.copies > 0) {
+            borrower.borrowBook(book); book.updateCopies(-1);
+            console.log(`${borrower.name} borrowed "${book.title}"`);
+        } else {
+            console.log(`Cannot borrow "${bookTitle}". It may not be available or the borrower ID is incorrect.`);
+        }
+    }
+
+    returnBook(borrowerId, bookTitle) {
+        const borrower = this.findBorrowerById(borrowerId);
+        const book = this.findBookByTitle(bookTitle);
+
+        if (borrower && book) {
+            borrower.returnBook(book);
+            book.updateCopies(1);
+            console.log(`${borrower.name} returned "${book.title}"`);
+        } else {
+            console.log(`Cannot return "${bookTitle}". It may not be borrowed or the borrower ID is incorrect.`);
+        }
+    }
+}
