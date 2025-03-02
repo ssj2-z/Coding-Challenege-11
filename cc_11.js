@@ -85,68 +85,28 @@ class Library {
 
 // Task 4 Implementing Book Borrowing
 class Library { //Creates Library class
-    constructor() {
-        this.books = []; this.borrowers = [];
-    }
-
-    addBook(book) { // method that adds book to array
-        this.books.push(book);
-    }
-
-    listBooks() { // method that returns details to book
-        this.books.forEach(book => {
-            console.log(book.getDetails());
-        });
-    }
-
-    addBorrower(borrower) { // method that adds borrower to array
+    addBorrower(borrower){ // adds a method to add borrowers to library
         this.borrowers.push(borrower);
     }
+    lendBook(borrowerId, isbn) {
+        const book = this.books.find(book => book.isbn === isbn);
+        const borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
 
-    findBookByTitle(title) { // method allows you to search for title
-        return this.books.find(book => book.title === title);
+        if (book && borrower && book.copies > 0) { // checks conditions to lend book
+            book.updateCopies(-1); // removes 1 from stock
+            borrower.borrowBook(book.title);        
+        } else {
+            console.log("Cannot lend book.")
+        }
     }
 
-    findBorrowerById(borrowerId) { // method to find Id by borrower
-        return this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
-    }
-
-    borrowBook(borrowerId, bookTilte) {
-        const borrower = this.findBorrowerById(borrowerId);
-        const book = this.findBookByTitle(bookTitle);
-
-    if (borrower && book && book.copies > 0) {
-        borrower.borrowBook(book);
-        book.updateCopies(-1);
-        console.log(`${borrower.name} borrowed "${book.title}"`);
-    } else {
-        console.log(`Cannot borrow the book. It may not be available or the borrower ID is incorrect.`);
-    }
-}
-
-borrowBook(borrowerId, bookTitle) {
-    const borrower = this.findBorrowerById(borrowerId);
-    const book = this.findBookByTitle(bookTitle);
-
-    if (borrower && book && book.copies > 0) {
-        borrower.borrowBook(book);
-        book.updateCopies(-1);
-        console.log(`${borrower.name} borrowed "${book.title}"`);
-    } else {
-        console.log(`Cannot borrow "${bookTitle}". It may not be available or the borrower ID is incorrect.`);
+// Task 5 Implementing Book Returns
+returnBook(borrowerId, isbn) {
+    const book = this.books.find(book => book.isbn === isbn);
+    const borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId);
+    if (book && borrower) { // checks conditions to return book
+        book.updateCopies(1); // adds 1 to stock
+        borrower.returnBook(book.title);
     }
 }
-
-returnBook(borrowerId, bookTitle) {
-    const borrower = this = this.findBorrowerById(borrowerId);
-    const book = this.findBookByTitle(bookTitle);
-
-    if (borrower && book) {
-        borrower.returnBook(book);
-        book.updateCopies(1);
-        console.log(`${borrowwer.name} returned "${book.title}"`);
-    } else {
-        console.log(`Cannot return "${bookTitle}". It may not be borrowed or the borrower ID is incorrect.`);
-    }
 }
-}  
