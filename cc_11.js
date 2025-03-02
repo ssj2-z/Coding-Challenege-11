@@ -110,3 +110,34 @@ returnBook(borrowerId, isbn) {
     }
 }
 }
+
+// Task 1 Test Cases
+const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5); // makes a new book
+console.log(book1.getDetails()); // logs details of the book
+book1.updateCopies(-1); // removes 1 from copies
+console.log(book1.getDetails()); // logs details of the book
+
+// Task 2 Test Cases
+const borrower1 = new Borrower("Alice Johnson", 201); // makes new borrower
+borrower1.borrowBook("The Great Gatsby"); // adds book to borrower array
+console.log(borrower1.borrowedBooks); // logs array of borrowed books
+borrower1.returnBook("The Great Gatsby"); // remove book from borrower array
+console.log(borrower1.borrowedBooks); // logs array of borrowed books
+
+// Task 3 Test Cases
+const library = new Library(); // makes library constant
+library.addBorrower(borrower1); // adds borrower1 to library
+library.addBook(book1); // adds book1 to library
+library.listBooks(); // logs each book in library
+
+// Task 4: Implementing Book Borrowing
+// Task 4 Test Cases
+library.lendBook(201, 123456); // lends book isbn 123456 to borrowerID 201
+console.log(book1.getDetails()); // logs book details. copies is one less
+console.log(borrower1.borrowedBooks); // logs borrowers borrowed books
+
+// Task 5: Implementing Book Returns
+// Task 5 Test Cases
+library.returnBook(201, 123456); // returns book
+console.log(book1.getDetails()); // logs book details
+console.log(borrower1.borrowedBooks);
